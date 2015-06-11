@@ -31,7 +31,14 @@ var async = require('async'),
 		'https://studio.appcelerator.com',
 		'https://www.appcelerator.com',
 		'https://api.appcelerator.net',
-		'https://registry.npmjs.org'
+		'https://registry.npmjs.org',
+		'https://platform.appcelerator.com',
+		'https://admin.cloudapp-enterprise.appcelerator.com',
+		//'https://secure-identity.cloud.appcelerator.com',
+		'https://appc-studio.appcelerator.com',
+		'https://security.appcelerator.com',
+		'https://software.appcelerator.com',
+		'https://web.appcelerator.com'
 	],
 	proxy,
 	cert,
@@ -260,12 +267,15 @@ function runLoginTest() {
 		// Spit out the first line of stdout which contains http response code, then parse the rest as JSON and get success property
 		firstLine = stdout.split('\n')[0];
 		console.log(firstLine);
+
 		result = JSON.parse(stdout.substr(stdout.indexOf("\n") + 1));
 		console.log(result.success ? "Successful".green : "Failed".red);
+
+		// Close the process
+		process.exit(result.success ? 0 : 1 );
 	});
 }
 
 gatherProxySettings();
 console.log('\nRunning Endpoint Tests');
 runEndpointTest();
-
